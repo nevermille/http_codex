@@ -660,6 +660,48 @@ impl From<Option<isize>> for HttpCode {
     }
 }
 
+impl HttpCode {
+    /// Returns the class associated to the code
+    pub fn to_class(self) -> HttpCodeClass {
+        self.into()
+    }
+
+    /// Returns `true` if the code is 1xx
+    pub fn is_informational(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::Informational)
+    }
+
+    /// Returns `true` if the code is 2xx
+    pub fn is_successful(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::Successful)
+    }
+
+    /// Returns `true` if the code is 3xx
+    pub fn is_redirection(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::Redirection)
+    }
+
+    /// Returns `true` if the code is 4xx
+    pub fn is_client_error(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::ClientError)
+    }
+
+    /// Returns `true` if the code is 5xx
+    pub fn is_server_error(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::ServerError)
+    }
+
+    /// Returns `true` if the code is unknown
+    pub fn is_unknown(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::Unknown)
+    }
+
+    /// Returns `true` if there is no code
+    pub fn is_none(&self) -> bool {
+        matches!(self.to_class(), HttpCodeClass::None)
+    }
+}
+
 impl From<HttpCode> for u32 {
     fn from(value: HttpCode) -> Self {
         match value {
@@ -811,6 +853,43 @@ impl From<HttpCode> for HttpCodeClass {
             HttpCode::None => HttpCodeClass::None,
             HttpCode::Unknown(_) => HttpCodeClass::Unknown,
         }
+    }
+}
+
+impl HttpCodeClass {
+    /// Returns `true` if the class is Informational
+    pub fn is_informational(&self) -> bool {
+        matches!(self, HttpCodeClass::Informational)
+    }
+
+    /// Returns `true` if the class is Successful
+    pub fn is_successful(&self) -> bool {
+        matches!(self, HttpCodeClass::Successful)
+    }
+
+    /// Returns `true` if the class is Redirection
+    pub fn is_redirection(&self) -> bool {
+        matches!(self, HttpCodeClass::Redirection)
+    }
+
+    /// Returns `true` if the class is ClientError
+    pub fn is_client_error(&self) -> bool {
+        matches!(self, HttpCodeClass::ClientError)
+    }
+
+    /// Returns `true` if the class is ServerError
+    pub fn is_server_error(&self) -> bool {
+        matches!(self, HttpCodeClass::ServerError)
+    }
+
+    /// Returns `true` if the class is Unknown
+    pub fn is_unknown(&self) -> bool {
+        matches!(self, HttpCodeClass::Unknown)
+    }
+
+    /// Returns `true` if the class is None
+    pub fn is_none(&self) -> bool {
+        matches!(self, HttpCodeClass::None)
     }
 }
 
