@@ -510,6 +510,12 @@ impl From<u32> for HttpCode {
     }
 }
 
+impl Default for HttpCode {
+    fn default() -> Self {
+        Self::None
+    }
+}
+
 impl From<u128> for HttpCode {
     fn from(value: u128) -> Self {
         (value as u32).into()
